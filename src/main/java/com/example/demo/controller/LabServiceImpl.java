@@ -34,4 +34,33 @@ public class LabServiceImpl implements LabService{
 		}
 		return labBeanList;
 	}
+	
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Throwable.class)
+	public List<LabBean> getCourseLabList() throws Exception {
+		List<Object[]> labList = null;
+		List<LabBean> labBeanList =  null;
+		
+		try {
+			labBeanList = new ArrayList<LabBean>();
+			
+			labList = labRepository.findAllCourseLab();
+			if(labList != null){
+				for(Object[] courseLab : labList) {
+					LabBean labBean = new LabBean();
+					labBean.setId(Long.valueOf(String.valueOf(courseLab[5])));
+					labBean.setActiveInd(Byte.valueOf(String.valueOf(courseLab[6])));
+					labBean.setLabName(String.valueOf(courseLab[7]));
+					labBean.setLabDesc(String.valueOf(courseLab[8]));
+					labBean.setLabSrcId(String.valueOf(courseLab[9]));
+					labBeanList.add(labBean);
+				}
+			}
+			return labBeanList;
+		}
+		catch (Exception e) {
+			return labBeanList;
+		}
+	}
+	
 }

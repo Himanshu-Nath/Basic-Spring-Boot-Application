@@ -28,4 +28,18 @@ public class LabController {
 		return new ResponseEntity<>(labListReadRS, HttpStatus.OK);
 	}
 
+	
+	@RequestMapping(value = "/courseList", method = RequestMethod.GET)
+	public ResponseEntity<LabListReadRS> getCourseLabList() {
+
+		LabListReadRS labListReadRS = new LabListReadRS();
+		try {
+			labListReadRS.setLabBeanList(labService.getCourseLabList());
+			labListReadRS.setStatus("SUCCESS");
+		} catch (Exception e) {
+			labListReadRS.setStatus("FAILURE");
+			return new ResponseEntity<>(labListReadRS, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(labListReadRS, HttpStatus.OK);
+	}
 }
